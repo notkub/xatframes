@@ -1,4 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Windows 10</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+<link rel='stylesheet' href='https://cdn.rawgit.com/desandro/masonry/master/dist/masonry.pkgd.min.js'><link rel="stylesheet" href="./style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
+</head>
+<body>
+<!-- partial:index.partial.html -->
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 
@@ -458,24 +470,481 @@
     
     
 </div>
+<!-- partial -->
+  <script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+<script src='https://cdn.rawgit.com/desandro/masonry/master/dist/masonry.pkgd.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+<script language="javascript"> 
+
+$(window).load(function() {
+  var $container = $('.start-screen');
+
+  $container.masonry({
+    itemSelector: '.masonry-item',
+    columnWidth: 128
+  });
+  
+  /*$container.sortable({
+    items: '.start-screen__tile',
+    start: function(e, ui) {
+      ui.item.removeClass('masonry-item');
+      $container.masonry('reloadItems');
+      
+      console.log('start drag');
+    },
+    change: function(e, ui) {
+     $container.masonry('reload');
+    },
+    stop: function(e, ui) {
+      ui.item.addClass('masonry-item');
+      $container.masonry('reload');
+      
+      console.log('stop drag');
+    }
+  });
+  $container.disableSelection();*/
+  
+  
+  $('.start-menu').hide().css('opacity', 1);
+});
+
+$(function() {
+  //$('.start-screen-scroll').jScrollPane();
+});
+
+function resizeStart() {
+    var startWidth = $('.start-screen').outerWidth();
+    var startRound = Math.ceil(startWidth / 128.0) * 128;
+  
+  console.log('original: ' + startWidth);
+  console.log('rounded: ' + startRound);
+    
+    $('.start-screen').css({
+      'width' : startRound
+    });
+}
+
+//$(window).load(resizeStart);
+//$(window).resize(resizeStart);
+
+
+
+$(function() {
+  var zIndex = 1;
+
+  var fullHeight = $(window).height() - 48,
+      fullWidth  = $(window).width();
+ 
+  
+  $(window).resize(function() {
+    fullHeight = $(window).height() - 48;
+    fullWidth = $(window).width();
+  });
+  
+  $(function() {
+    $('.window:visible').each(function() {
+      var appName = $(this).data('window');
+      
+      $('.taskbar__item[data-window="' + appName + '"]').addClass('taskbar__item--open');
+    });
+    
+    $('.window:hidden').each(function() {
+      $(this).addClass('window--opening');
+    });
+  });
+  
+  $(function() {
+    var initialActive = $('.window:visible').not('.window--minimized').first();
+    var appName = $(initialActive).data('window');
+    
+   $(initialActive).addClass('window--active').css({'z-index' : zIndex++});
+   $('.taskbar__item[data-window="' + appName + '"]').addClass('taskbar__item--active');
+  });
+
+  
+  $('.window').click(function(e) {
+    if ( !$(this).is('.window--active')) {
+      $('.window').removeClass('window--active');
+    }
+    
+    $(this).addClass('window--active');
+    $(this).css({'z-index' : zIndex++});
+    
+    var appName = $(this).data('window');
+    var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]');
+   
+    if ( !$('.window__close').is(e.target) && $('.window__close').has(e.target).length === 0 && !$('.window__minimize').is(e.target) && $('.window__minimize').has(e.target).length === 0 ) {
+      $('.taskbar__item').removeClass('taskbar__item--active'); $(targetTaskbar).addClass('taskbar__item--active');
+      
+    }
+  });
+  
+  $('.window').resizable({
+    handles: 'n,ne,e,se,s,sw,w,nw',
+    stop: function() {
+     var initialHeight = $(this).height(),
+     initialWidth = $(this).width(),
+     initialTop = $(this).position().top,
+     initialLeft = $(this).position().left; }
+   });
+
+  $('.window').draggable({    
+    handle: '.window__titlebar',
+    stop: function() {
+    var initialHeight = $(this).height(),
+        initialWidth = $(this).width(),
+        initialTop = $(this).position().top,
+        initialLeft = $(this).position().left; 
+    },
+    start: function(event, ui) {
+      var mouseX = event.pageX + 'px';
+      console.log(mouseX);
+      
+      $('.window').removeClass('window--active');
+      
+      $(this).addClass('window--active');
+      $(this).css({'z-index' : zIndex++});
+
+      if ( $(this).hasClass('window--maximized') ) {
+       
+        //alert(mouseX);
+        $(this).removeClass('window--maximized').css({ 'height' : initialHeight,
+                      'width'  : initialWidth,
+                      'top'    : 0,
+                      'left'   : mouseX }); 
+      }  
+      
+      var appName = $(this).data('window');
+    var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]')
+    $('.taskbar__item').removeClass('taskbar__item--active'); $(targetTaskbar).addClass('taskbar__item--active');
+    }
+  });
+
+  function openApp(e) {
+    var appName = $(this).data('window');
+    var targetWindow = $('.window[data-window="' + appName + '"]');
+    var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]');
+    
+    e.preventDefault();
+    $('.taskbar__item').removeClass('taskbar__item--active');
+    
+    if ( targetWindow.is(':visible') ) {
+      if ( targetWindow.hasClass('window--active') ) {
+        $(targetWindow).toggleClass('window--minimized');
+
+        if ( !targetWindow.hasClass('window--minimized') ) {
+          var initialHeight = $(targetWindow).height(),
+               initialWidth = $(targetWindow).width(),
+               initialTop = $(targetWindow).position().top,
+               initialLeft = $(targetWindow).position().left; 
+          
+          $('.window').removeClass('window--active');
+
+         $(targetWindow).addClass('window--active').css({ 
+            'z-index' : zIndex++
+          });
+          
+         $(targetTaskbar).addClass('taskbar__item--active');
+        }
+      } else {
+        $('.window').removeClass('window--active');
+        $(targetWindow).addClass('window--active').removeClass('window--minimized').css({'z-index' : zIndex++});
+        
+        $(targetTaskbar).addClass('taskbar__item--active');
+      }
+    } else {
+      $('.window').removeClass('window--active');
+      
+      $('.window[data-window="' + appName + '"]').css({ 'z-index' : zIndex++ }).addClass('window--active').show();
+      
+      setTimeout(function() {
+        $('.window[data-window="' + appName + '"]').removeClass('window--opening');
+      }, 500);
+      
+      $(targetTaskbar).addClass('taskbar__item--active').addClass('taskbar__item--open');
+    } 
+  }
+  
+  $('.taskbar__item').click(openApp);
+  $('.start-menu__recent li a').click(openApp);
+  $('.start-screen__tile').click(openApp);
+
+  
+  
+  
+  
+  
+  $('.window__titlebar').each(function() {
+    var parentWindow = $(this).closest('.window'); 
+    
+    $(this).find('a').click(function(e) {
+      e.preventDefault();
+    });
+    
+    $(this).find('.window__icon').click(function(e) {
+      $(this).siblings('.window__menutoggle').trigger('click');
+    });
+    
+    $(this).find('.window__menutoggle').click(function(e) {
+      $(parentWindow).find('.window__menu').fadeToggle(100).toggleClass('window__menu--open');
+      $(this).toggleClass('window__menutoggle--open');
+    });
+    
+    $(this).find('.window__close').click(function(e) {
+      $(parentWindow).addClass('window--closing');
+      
+      setTimeout(function() {             $(parentWindow).hide().removeClass('window--closing').addClass('window--opening');
+      }, 500);
+      
+      var appName = $(parentWindow).data('window');
+      
+      $('.taskbar__item[data-window="' + appName + '"]').removeClass('taskbar__item--open').removeClass('taskbar__item--active');
+      
+      var closest = $('.window').not('.window--minimized, .window--closing, .window--opening').filter(function() {
+        return $(this).css('z-index') < zIndex
+      }).first();
+      
+      $(closest).addClass('window--active');
+    });
+    
+    $(this).find('.window__minimize').click(function(e) {
+      $(parentWindow).addClass('window--minimized');
+      
+     var appName = $(parentWindow).data('window');
+    var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]');
+      
+     //alert(targetTaskbar.attr('class'));
+      $(targetTaskbar).removeClass('taskbar__item--active');
+      
+    });
+    
+    $(this).find('.window__maximize').click(function(e) {
+
+      $(parentWindow).toggleClass('window--maximized');
+
+      if ( !$(parentWindow).hasClass('window--maximized') ) {
+        $(parentWindow).css({ 'height' : initialHeight,
+                              'width'  : initialWidth,
+                              'top'    : initialTop,
+                              'left'   : initialLeft });
+      } else {
+        initialHeight = $(parentWindow).height();
+        initialWidth = $(parentWindow).width();
+        initialTop = $(parentWindow).position().top;
+        initialLeft = $(parentWindow).position().left;
+
+        $(parentWindow).css({ 'height' : fullHeight,
+                              'width'  : fullWidth,
+                              'top'    : 0,
+                              'left'   : 0 });
+      }
+    });
+  });
+
+  $('.window__titlebar').mouseup(function(e) {
+  var parentWindow = $(this).closest('.window');
+  var pos = $(parentWindow).offset().top;
+    
+    if ( pos < -5 ) {
+      //alert('at top')
+      $(parentWindow).addClass('window--maximized');
+      
+      initialHeight = $(parentWindow).height();
+        initialWidth = $(parentWindow).width();
+        initialTop = $(parentWindow).position().top;
+        initialLeft = $(parentWindow).position().left;
+
+        $(parentWindow).css({ 'height' : fullHeight,
+                              'width'  : fullWidth,
+                              'top'    : 0,
+                              'left'   : 0 });
+    }
+  
+});
+}); 
+
+
+
+// Unfocus windows when desktop is clicked
+$('.desktop').click(function(e) {
+  if ( $('.desktop').has(e.target).length === 0 ) {
+    $('.window').removeClass('window--active');
+    $('.taskbar__item').removeClass('taskbar__item--active');
+  }
+});
+
+
+
+
+
+$(function() {
+  $('.side__list ul').each(function() {
+    if ( $(this).find('ul').is(':visible') ) {
+      $(this).children('li').addClass('side__list--open');
+    }
+  });
+});
+
+
+
+$(function() {
+  $('.side__list li').each(function() {
+    if ( $(this).children('ul').length ) {
+      //$(this).addClass('list__sublist');
+      $(this).children('a').append('<span class="list__toggle"></span>');
+      
+      
+    }
+    
+    if ( $(this).children('ul').is(':visible') ) {
+      $(this).addClass('side__list--open');
+    }
+  });
+});
+
+$(document).on('click', '.list__toggle',  function() {
+
+ $(this).closest('li').children('ul').animate({
+  'height' : 'toggle',
+  'opacity' : 'toggle'
+}, 250);
+
+ $(this).closest('li').toggleClass('side__list--open');
+
+
+});
+
+
+
+
+function toggleStart(e) {
+  $('.start-menu-fade').fadeToggle(500);
+  $('.start-menu').fadeToggle(250).toggleClass('start-menu--open');
+  $('.taskbar__item--start').toggleClass('start--open');
+}
+$('.taskbar__item--start').click(toggleStart);
+$('.start-menu__recent li a').click(toggleStart);
+$('.start-screen__tile').click(toggleStart);
+
+// Prevent "open" class on start
+$(function() {
+  $('.taskbar__item--start').click(function() {
+    $(this).removeClass('taskbar__item--open taskbar__item--active');
+  });
+});
+
+
+$(document).mouseup(function(e) {
+    var start = $('.start-menu');
+    var startToggle = $('.taskbar__item--start');
+
+
+    if (start.is(':visible') && !startToggle.is(e.target) && startToggle.has(e.target).length === 0 && !start.is(e.target) && start.has(e.target).length === 0 ) {
+      toggleStart();
+      //alert('clicked outside start');
+    }
+  
+  
+
+});
+
+
+
+
+// Current time 
+$(function() {
+  var a_p = "";
+  var d = new Date();
+
+  var curr_hour = d.getHours();
+
+  if (curr_hour < 12)
+     {
+     a_p = "AM";
+     }
+  else
+     {
+     a_p = "PM";
+     }
+  if (curr_hour == 0)
+     {
+     curr_hour = 12;
+     }
+  if (curr_hour > 12)
+     {
+     curr_hour = curr_hour - 12;
+     }
+
+  var curr_min = d.getMinutes();
+  
+  if ( curr_min < 10 ) {
+    curr_min = '0' + curr_min;
+  }
+
+  $('.time').html(curr_hour + ':' + curr_min + ' ' + a_p);
+});
+
+
+
+$('.menu-toggle').each(function() {
+  var menuName = $(this).data('menu');
+  var menu = $('.menu[data-menu="' + menuName + '"]');
+  var pos = $(this).position();
+  var height = $(this).outerHeight();
+  
+  if ( !$(menu).hasClass('menu--bottom') ) {
+    $(menu).position({
+      my: 'left top',
+      at: 'left bottom',
+      of: this,
+      collision: 'none'
+    });
+  } else {
+   
+  }
+  
+  $(menu).hide();
+  
+  $(this).click(function(e) {
+    e.preventDefault();
+    $('.menu').not(menu).hide();
+    $(menu).toggle();
+  });
+});
+
+
+
+
+$(document).mouseup(function(e) {
+  if ( $('.menu').has(e.target).length === 0 && !$('.menu-toggle').is(e.target) && $('.menu-toggle').has(e.target).length === 0 ) {
+    $('.menu').hide();
+  }
+});
+
+</script>
+
 
 
 
 
 <style>
-$theme-color: #1976D2;
 
-$explorer-color: #0097A7;
-$mail-color: #5C6BC0;
-$notepad-color: #EC407A;
-
+@charset "UTF-8";
 *, *:before, *:after {
   box-sizing: border-box;
 }
 
 body {
   overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
 a {
@@ -483,18 +952,18 @@ a {
   cursor: default;
 }
 
-
 .media {
   display: flex;
 }
+
 .media__img,
-.media__body{
+.media__body {
   flex: 0 1 auto;
 }
+
 .media__body {
   padding-left: 10px;
 }
-
 
 .desktop {
   position: absolute;
@@ -503,7 +972,7 @@ a {
   left: 0;
   right: 0;
   bottom: 0;
-  transform: translate3d(0,0,0);
+  transform: translate3d(0, 0, 0);
 }
 
 .desktop,
@@ -515,57 +984,48 @@ a {
 }
 
 .window {
-  //overflow: hidden;
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   border-top: 0;
-  //background-color: white;
-  box-shadow: 0 2px 4px rgba(black, 0.5), 0 1px 1px rgba(black, 0.1);
-  filter: contrast(0.7)
-          grayscale(0.5)
-          brightness(1.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(0, 0, 0, 0.1);
+  filter: contrast(0.7) grayscale(0.5) brightness(1.3);
   transform: scale(0.995);
-  transition: all 250ms,
-              z-index 1ms;
+  transition: all 250ms, z-index 1ms;
   z-index: 0;
-  &.ui-draggable-dragging,
-  &.ui-resizable-resizing {
-    transition: none;
-  }
 }
-.window--maximized {
-  
+.window.ui-draggable-dragging, .window.ui-resizable-resizing {
+  transition: none;
 }
+
 .window--minimized {
-  //top: 50% !important;
-  //left: -50% !important;
   top: 100% !important;
   left: 0 !important;
-  transform: 
-             scale(0) translate(-100%, 0) !important;
+  transform: scale(0) translate(-100%, 0) !important;
   opacity: 0;
 }
+
 .window--active {
   filter: none;
   transform: none;
-  box-shadow: 0 10px 30px rgba(black, 0.25), 0 0 1px rgba(black, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 0 1px rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
+
 .window--closing {
   transform: scale(0.9);
   opacity: 0;
 }
+
 .window--opening {
   transform: scale(1.25);
   opacity: 0;
 }
-.window--explorer {
-  .window__body {
-    padding-top: 32px * 2;
-  }
+
+.window--explorer .window__body {
+  padding-top: 64px;
 }
 
 .window__titlebar {
@@ -577,28 +1037,23 @@ a {
   right: 0;
   height: 32px;
   cursor: default;
-  //background-color: lighten($theme-color, 15%);
-  background-color: rgba(lighten($theme-color, 25%), 1);
-  //border-bottom: 1px solid #B0BEC5;
-  &:after {
-    //content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    //filter: blur(5px);
-    filter: grayscale(100%);
-    opacity: 0.5;
-  }
+  background-color: #7bb6ef;
+}
+.window__titlebar:after {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  filter: grayscale(100%);
+  opacity: 0.5;
 }
 
 .window__title {
   position: relative;
   line-height: 32px;
   z-index: 10;
-  color: rgba(black, 0.75);
-  //text-shadow: 0 0 7px white;
+  color: rgba(0, 0, 0, 0.75);
 }
 
 .window__controls {
@@ -606,101 +1061,108 @@ a {
   top: 0;
   bottom: 0;
   z-index: 10;
-  > a {
-    display: block;
-    float: left;
-    height: 32px;
-    width: 32px;
-    line-height: 32px;
-    font-size: 12px;
-    transition: all 100ms;
-    cursor: default;
-    color: rgba(black, 0.5);
-    &:hover {
-      background-color: rgba(white, 0.25);
-    }
-  }
-  > .window__close {
-      color: white;
-      background-color: desaturate(lighten($theme-color, 8%), 10%);
-    &:hover {
-      background-color: #e53935;
-    }
-  }
 }
+.window__controls > a {
+  display: block;
+  float: left;
+  height: 32px;
+  width: 32px;
+  line-height: 32px;
+  font-size: 12px;
+  transition: all 100ms;
+  cursor: default;
+  color: rgba(0, 0, 0, 0.5);
+}
+.window__controls > a:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+.window__controls > .window__close {
+  color: white;
+  background-color: #398ada;
+}
+.window__controls > .window__close:hover {
+  background-color: #e53935;
+}
+
 .window__controls--left {
   left: 0;
 }
+
 .window__controls--right {
   right: 0;
 }
 
 .window__maximize {
   position: relative;
-  > i {
-    box-sizing: content-box;
-    width: 6px;
-    height: 6px;
-    border-radius: 2px;
-    border: 2px solid rgba(black, 0.6);
-    .window--maximized & {
-      margin-bottom: -1px;
-      margin-left: -4px;
-      width: 5px;
-      height: 5px;
-      transition: all 100ms 350ms;
-      &:after {
-        box-sizing: content-box;
-        content: '';
-        display: block;
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        width: 6px;
-        height: 6px;
-        border: inherit;
-        border-radius: inherit;
-        border-left: 0;
-        border-bottom: 0;
-        transition: all 100ms 350ms;
-      }
-    }
-  }
+}
+.window__maximize > i {
+  box-sizing: content-box;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  border: 2px solid rgba(0, 0, 0, 0.6);
+}
+.window--maximized .window__maximize > i {
+  margin-bottom: -1px;
+  margin-left: -4px;
+  width: 5px;
+  height: 5px;
+  transition: all 100ms 350ms;
+}
+.window--maximized .window__maximize > i:after {
+  box-sizing: content-box;
+  content: "";
+  display: block;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border: inherit;
+  border-radius: inherit;
+  border-left: 0;
+  border-bottom: 0;
+  transition: all 100ms 350ms;
 }
 
 .window__icon,
 .window__icon:hover,
 .window__menu {
   color: white !important;
-  .window--explorer & {
-    background-color: $explorer-color;
-  }
-  .window--mail & {
-    background-color: $mail-color;
-  }
-  .window--notepad & {
-    background-color: $notepad-color;
-  }
+}
+.window--explorer .window__icon,
+.window--explorer .window__icon:hover,
+.window--explorer .window__menu {
+  background-color: #0097A7;
+}
+.window--mail .window__icon,
+.window--mail .window__icon:hover,
+.window--mail .window__menu {
+  background-color: #5C6BC0;
+}
+.window--notepad .window__icon,
+.window--notepad .window__icon:hover,
+.window--notepad .window__menu {
+  background-color: #EC407A;
 }
 
-.window__menutoggle {
-  
-}
 .window__menutoggle--open,
 .window__menutoggle--open:hover {
   color: white !important;
   background-color: #5C6BC0;
-  .window--explorer & {
-    background-color: $explorer-color;
-  }
-  .window--mail & {
-    background-color: $mail-color;
-  }
-  .window--notepad & {
-    background-color: $notepad-color;
-  }
 }
-
+.window--explorer .window__menutoggle--open,
+.window--explorer .window__menutoggle--open:hover {
+  background-color: #0097A7;
+}
+.window--mail .window__menutoggle--open,
+.window--mail .window__menutoggle--open:hover {
+  background-color: #5C6BC0;
+}
+.window--notepad .window__menutoggle--open,
+.window--notepad .window__menutoggle--open:hover {
+  background-color: #EC407A;
+}
 
 .window__menu {
   overflow: hidden;
@@ -712,44 +1174,41 @@ a {
   min-height: calc(100% - 31px);
   margin: 0;
   padding: 10px 0;
-  //font-size: 20px;
   color: white;
   background-color: #5C6BC0;
   z-index: 100;
-  .window--explorer & {
-    background-color: $explorer-color;
-  }
-  > li {
-    list-style: none;
-    transform: translate(-50%, 0);
-    transition: transform 500ms 100ms;
-    > a {
-      opacity: 0;
-      position: relative;
-      display: block;
-      padding: 10px;
-      padding-left: 45px;
-      color: white;
-      font-weight: 200;
-      text-decoration: none;
-      transition: all 100ms,
-                  opacity 750ms 150ms;
-      &:hover {
-        background-color: rgba(white, 0.1);
-      }
-    }
-    &.divided > a {
-      border-top: 1px solid rgba(black, 0.1);
-    }
-  }
 }
-.window__menu--open {
-  li {
-    transform: none;
-    > a {
-      opacity: 1;
-    }
-  }
+.window--explorer .window__menu {
+  background-color: #0097A7;
+}
+.window__menu > li {
+  list-style: none;
+  transform: translate(-50%, 0);
+  transition: transform 500ms 100ms;
+}
+.window__menu > li > a {
+  opacity: 0;
+  position: relative;
+  display: block;
+  padding: 10px;
+  padding-left: 45px;
+  color: white;
+  font-weight: 200;
+  text-decoration: none;
+  transition: all 100ms, opacity 750ms 150ms;
+}
+.window__menu > li > a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.window__menu > li.divided > a {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.window__menu--open li {
+  transform: none;
+}
+.window__menu--open li > a {
+  opacity: 1;
 }
 
 .menu__icon.menu__icon {
@@ -757,41 +1216,37 @@ a {
   left: 20px;
   top: 50%;
   transform: translate(0, -50%);
-  font-size: 16px
+  font-size: 16px;
 }
-
 
 .window__body {
   display: flex;
-  //flex-flow: row wrap;
-  //overflow: auto;
   padding-top: 32px;
   height: 100%;
   font-size: 14px;
 }
+
 .window__side,
 .window__main {
   flex: 0 1 auto;
-  //height: 100%;
   overflow: auto;
 }
+
 .window__side {
-  //flex: 1 1 auto;
   overflow: auto;
   width: 25%;
   min-width: 200px;
   padding: 10px;
   background-color: #ECEFF1;
 }
+
 .window__main {
-  //flex: 1 1 auto;
   padding: 10px;
   width: 100%;
   background-color: white;
 }
+
 .window__actions {
-  //flex: 0 0 100%;
-  //display: none;
   position: absolute;
   top: 32px;
   display: flex;
@@ -799,27 +1254,28 @@ a {
   width: 100%;
   height: 32px;
   padding: 0;
-  border-bottom: 1px solid rgba(black, 0.1);
-  background-color: lighten(#ECEFF1, 5%);
-  .search {
-    position: relative;
-    height: 32px;
-    width: 33%;
-    max-width: 248px;
-    min-width: 170px;
-    margin-left: auto;
-    border-left: 1px solid rgba(black, 0.1);
-    background-color: transparent;
-  }
-  .search__input {
-    padding: 0 10px;
-    line-height: 32px;
-  }
-  .search__btn {
-    height: 32px;
-    width: 32px;
-  }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #fbfbfc;
 }
+.window__actions .search {
+  position: relative;
+  height: 32px;
+  width: 33%;
+  max-width: 248px;
+  min-width: 170px;
+  margin-left: auto;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: transparent;
+}
+.window__actions .search__input {
+  padding: 0 10px;
+  line-height: 32px;
+}
+.window__actions .search__btn {
+  height: 32px;
+  width: 32px;
+}
+
 .window__back,
 .window__forward {
   flex: 0 1 auto;
@@ -828,110 +1284,103 @@ a {
   line-height: 32px;
   text-align: center;
   font-size: 12px;
-  color: rgba(black, 0.45);
-  &:hover {
-    color: $theme-color;
-  }
+  color: rgba(0, 0, 0, 0.45);
 }
+.window__back:hover,
+.window__forward:hover {
+  color: #1976D2;
+}
+
 .window__path {
   white-space: nowrap;
   padding: 0 5px;
-  border-left: 1px solid rgba(black, 0.1);
-  > a {
-    display: inline-block;
-    padding: 0 5px;
-    line-height: 32px;
-    font-size: 12px;
-    cursor: pointer;
-    color: #607D8B;
-    &:after {
-      display: inline-block;
-      margin-left: 5px;
-      content: '\f0da';
-      font-family: 'FontAwesome';
-      opacity: 0.5;
-    }
-  }
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
-
+.window__path > a {
+  display: inline-block;
+  padding: 0 5px;
+  line-height: 32px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #607D8B;
+}
+.window__path > a:after {
+  display: inline-block;
+  margin-left: 5px;
+  content: "";
+  font-family: "FontAwesome";
+  opacity: 0.5;
+}
 
 .side__list {
   margin: 0;
   padding: 0;
   font-size: 18px;
   font-weight: 200;
-  > li {
-    margin-bottom: 10px;
-  }
-  li {
-    list-style: none;
-    a {
-      position: relative;
-      display: block;
-      padding: 3px 5px 3px 32px;
-      border: 1px solid transparent;
-      color: #546E7A;
-      transition: all 100ms;
-      &:hover {
-        color: #263238;
-        border-color: rgba(black, 0.1);
-        background-color: rgba(black, 0.05);
-      }
-      
-    }
-  }
-  ul {
-    padding: 0;
-    font-size: 14px;
-    li {
-      > a {
-        padding-left: 42px;
-      }
-      li {
-        > a {
-          padding-left: 52px;
-        }
-      }
-    }
-  }
+}
+.side__list > li {
+  margin-bottom: 10px;
+}
+.side__list li {
+  list-style: none;
+}
+.side__list li a {
+  position: relative;
+  display: block;
+  padding: 3px 5px 3px 32px;
+  border: 1px solid transparent;
+  color: #546E7A;
+  transition: all 100ms;
+}
+.side__list li a:hover {
+  color: #263238;
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.side__list ul {
+  padding: 0;
+  font-size: 14px;
+}
+.side__list ul li > a {
+  padding-left: 42px;
+}
+.side__list ul li li > a {
+  padding-left: 52px;
 }
 
 .list__toggle {
   display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 32px;
-        width: 32px;
-        display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 32px;
+  width: 32px;
+  display: block;
   line-height: 32px;
   text-align: center;
-  //background: rgba(red,0.1);
-  &:hover {
-    color: #1565C0;
-    //background-color: rgba(black, 0.05);
-  }
-    &:before {
-        display: block;
-        content: '\f105';
-        font-family: 'FontAwesome';
-        margin-top: 1px;
-        transform: none;
-        transition: all 250ms;
-   }
-  .side__list--open > a &:before {
-          transform: rotate(90deg);
-        }
-  li li & {
-    width: 42px;
-    height: 26px;
-    line-height: 26px;
-    &:before {
-      margin-top: 2px;
-    }
-  }
 }
-
+.list__toggle:hover {
+  color: #1565C0;
+}
+.list__toggle:before {
+  display: block;
+  content: "";
+  font-family: "FontAwesome";
+  margin-top: 1px;
+  transform: none;
+  transition: all 250ms;
+}
+.side__list--open > a .list__toggle:before {
+  transform: rotate(90deg);
+}
+li li .list__toggle {
+  width: 42px;
+  height: 26px;
+  line-height: 26px;
+}
+li li .list__toggle:before {
+  margin-top: 2px;
+}
 
 .taskbar {
   position: absolute;
@@ -939,12 +1388,11 @@ a {
   right: 0;
   bottom: 0;
   height: 48px;
-  //background-color: #263238;
-  box-shadow: 0 -2px 5px rgba(black, 0.15);
-  //background-image: linear-gradient(to top, rgba(black, 0.25), transparent);
-  background-color: darken(#263238, 5%);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.15);
+  background-color: #1c2429;
   z-index: 9998;
 }
+
 .taskbar__item {
   display: inline-block;
   margin-right: 4px;
@@ -955,65 +1403,54 @@ a {
   color: white;
   border: 1px solid transparent;
   transition: all 100ms;
-  &:hover {
-    background-color: rgba(#78909C, 0.15);
-  }
-  > i {
-    display: inline-block;
-    vertical-align: middle;
-    margin-top: 6px;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-  }
 }
-.taskbar__item--active {
-  //background-color: rgba(#78909C, 0.25) !important;
-  &.taskbar__item--explorer {
-    background-color: $explorer-color;
-  }
-  &.taskbar__item--mail {
-    background-color: $mail-color;
-  }
-  &.taskbar__item--notepad {
-    background-color: $notepad-color;
-  }
+.taskbar__item:hover {
+  background-color: rgba(120, 144, 156, 0.15);
 }
+.taskbar__item > i {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 6px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
+
+.taskbar__item--active.taskbar__item--explorer {
+  background-color: #0097A7;
+}
+.taskbar__item--active.taskbar__item--mail {
+  background-color: #5C6BC0;
+}
+.taskbar__item--active.taskbar__item--notepad {
+  background-color: #EC407A;
+}
+
 .taskbar__item--open {
-  //background: red !important;
-  box-shadow: inset 0 -2px 0 rgba(white, 0.35);
+  box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.35);
 }
-.taskbar__item--explorer > i {
-    //background-color: $explorer-color;
-  }
-.taskbar__item--mail > i {
-    //background-color: $mail-color;
-  }
-.taskbar__item--notepad > i {
-    //background-color: $notepad-color;
-  }
 
 .taskbar__item--start {
-  color: lighten($theme-color, 10%);
+  color: #378fe7;
   transition: background-color 250ms;
-  &.start--open {
-    color: white;
-  }
 }
+.taskbar__item--start.start--open {
+  color: white;
+}
+
 .taskbar__tray {
   color: white;
   padding: 0 10px;
   float: right;
   line-height: 48px;
-  .time {
-    cursor: default;
-    padding: 5px;
-    &:hover {
-      background-color: rgba(white,0.1);
-    }
-  }
 }
-
+.taskbar__tray .time {
+  cursor: default;
+  padding: 5px;
+}
+.taskbar__tray .time:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
 
 .start-menu-fade {
   display: none;
@@ -1023,42 +1460,42 @@ a {
   right: 0;
   bottom: 0;
   z-index: 9998;
-  background-color: rgba(black, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
+
 .start-menu {
   display: flex;
   opacity: 0;
-  //overflow: hidden;
   position: absolute;
   left: 0;
   bottom: 48px;
   padding: 10px;
   height: 85vh;
-  min-height: 128px * 4;
+  min-height: 512px;
   z-index: 9999;
   color: white;
-  background-color: $theme-color;
+  background-color: #1976D2;
 }
-.start-menu--open {
- 
-}
+
 .start--open {
-  background-color: $theme-color !important;
+  background-color: #1976D2 !important;
 }
+
 .start-menu__list,
 .start-screen {
   flex: 0 1 auto;
 }
+
 .start-menu__list {
   position: relative;
   width: 248px;
   transform: translate(-100%, 0);
   opacity: 0;
   transition: all 500ms;
-  .start-menu--open & {
-    transform: none;
-    opacity: 1;
-  }
+}
+.start-menu--open .start-menu__list {
+  transform: none;
+  opacity: 1;
 }
 
 .user-info {
@@ -1066,98 +1503,89 @@ a {
   margin-bottom: 10px;
   padding: 10px;
   color: white;
-  transition: all 100ms,
-              transform 500ms;
-  &:hover {
-    background-color: rgba(white, 0.15);
-  }
-  .start-menu--open & {
-    transform: none;
-  }
+  transition: all 100ms, transform 500ms;
 }
+.user-info:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.start-menu--open .user-info {
+  transform: none;
+}
+
 .user-info__img {
   display: block;
   width: 40px;
   height: 40px;
 }
+
 .user-info__name {
   font-size: 20px;
   font-weight: 200;
   align-self: center;
 }
+
 .user-info__power {
   margin-left: auto;
-  //line-height: 40px;
   width: 60px;
   height: 60px;
   line-height: 60px;
   text-align: center;
   font-size: 20px;
   color: white;
-  &:hover {
-    background-color: rgba(white, 0.15);
-  }
 }
+.user-info__power:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
 .start-menu__label {
   display: block;
   padding: 10px 20px;
-  //margin-top: 5px;
   font-size: 20px;
 }
+
 .start-menu__recent {
- // position: relative;
   overflow: hidden;
   max-height: 65%;
   padding: 0;
   margin: 0;
   transform: translate(-100%, 0);
   opacity: 0;
-  transition: all 500ms 100ms,
-    opacity 1000ms 250ms;
-  .start-menu--open & {
-    transform: none;
-    opacity: 1;
-  }
-  li {
-    list-style: none;
-    a {
-      display: block;
-      padding: 10px;
-      color: white;
-      transition: all 100ms;
-      &:hover {
-        background-color: rgba(white, 0.15);
-        //box-shadow: inset 0 0 0 1px rgba(white, 0.15);
-        > i {
-          //box-shadow: none;
-        }
-      }
-     > i {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        margin-right: 6px;
-        font-size: 20px;
-        line-height: 32px;
-        text-align: center;
-       box-shadow: inset 0 0 0 1px rgba(white, 0.15)
-        //background-color: $explorer-color;
-      }
-    }
-   
-    &.start-menu__explorer a > i {
-    //&.start-menu__explorer a:hover {
-      background-color: $explorer-color;
-    }
-    &.start-menu__mail a > i {
-    //&.start-menu__mail a:hover {
-      background-color: $mail-color;
-    }
-    &.start-menu__notepad a > i {
-    //&.start-menu__notepad a:hover {
-      background-color: $notepad-color;
-    }
-  }
+  transition: all 500ms 100ms, opacity 1000ms 250ms;
+}
+.start-menu--open .start-menu__recent {
+  transform: none;
+  opacity: 1;
+}
+.start-menu__recent li {
+  list-style: none;
+}
+.start-menu__recent li a {
+  display: block;
+  padding: 10px;
+  color: white;
+  transition: all 100ms;
+}
+.start-menu__recent li a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.start-menu__recent li a > i {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  margin-right: 6px;
+  font-size: 20px;
+  line-height: 32px;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+.start-menu__recent li.start-menu__explorer a > i {
+  background-color: #0097A7;
+}
+.start-menu__recent li.start-menu__mail a > i {
+  background-color: #5C6BC0;
+}
+.start-menu__recent li.start-menu__notepad a > i {
+  background-color: #EC407A;
 }
 
 .all-apps {
@@ -1166,24 +1594,21 @@ a {
   bottom: 40px;
   display: block;
   margin-bottom: 10px;
-  //float: right;
   color: white;
   transition: all 100ms;
-  > i {
-    margin-left: 5px;
-    margin-right: 5px;
-    border: 2px solid white;
-    border-radius: 100px;
-    width: 32px;
-    height: 32px;
-    line-height: 26px;
-    text-align: center;
-  }
-  &:hover {
-    > i {
-      background-color: #37474F;
-    }
-  }
+}
+.all-apps > i {
+  margin-left: 5px;
+  margin-right: 5px;
+  border: 2px solid white;
+  border-radius: 100px;
+  width: 32px;
+  height: 32px;
+  line-height: 26px;
+  text-align: center;
+}
+.all-apps:hover > i {
+  background-color: #37474F;
 }
 
 .search {
@@ -1193,6 +1618,7 @@ a {
   height: 36px;
   background-color: white;
 }
+
 .search__input {
   display: block;
   width: 100%;
@@ -1207,6 +1633,7 @@ a {
   -moz-appearance: none;
   appearance: none;
 }
+
 .search__btn {
   position: absolute;
   right: 0;
@@ -1215,17 +1642,17 @@ a {
   height: 36px;
   border: 0;
   z-index: 1;
-    background: transparent;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-  &:before {
-    display: block;
-    content: '\f002';
-    font-family: 'FontAwesome';
-    font-size: 12px;
-    color: #607D8B;
-  }
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.search__btn:before {
+  display: block;
+  content: "";
+  font-family: "FontAwesome";
+  font-size: 12px;
+  color: #607D8B;
 }
 
 .start-screen-scroll {
@@ -1237,30 +1664,35 @@ a {
   padding: 4px;
   margin-left: 4px;
   transform: translate(-100%, 0);
-  transition: transform 500ms,
-              opacity 1000ms;
+  transition: transform 500ms, opacity 1000ms;
   opacity: 0;
-  .start-menu--open & {
-    transform: none;
-    opacity: 1;
-  }
 }
+.start-menu--open .start-screen-scroll {
+  transform: none;
+  opacity: 1;
+}
+
 .start-screen {
   position: relative;
-  width: 128px * 2;
+  width: 256px;
   word-spacing: -1em;
-  //background-color: green;
-  
-  @media screen and ( min-width: 700px ) {
-    min-width: 128px * 3;
-  }
-  @media screen and ( min-width: 800px ) {
-    min-width: 128px * 4;
-  }
-  @media screen and ( min-width: 960px ) {
-    min-width: 128px * 5;
+}
+@media screen and (min-width: 700px) {
+  .start-screen {
+    min-width: 384px;
   }
 }
+@media screen and (min-width: 800px) {
+  .start-screen {
+    min-width: 512px;
+  }
+}
+@media screen and (min-width: 960px) {
+  .start-screen {
+    min-width: 640px;
+  }
+}
+
 .start-screen__tile {
   position: relative;
   display: block;
@@ -1271,74 +1703,76 @@ a {
   margin: 4px;
   color: white;
   background-color: #D81B60;
-  border: 2px solid rgba(white,0.1);
-  //box-shadow: inset 0 0 0 1px rgba(white, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   transform: scale(0.5);
   transition: all 250ms, transform 0s;
-  .start-menu--open & {
-    transform: none;
-  }
-  &.ui-sortable-helper {
-    transform: scale(1.1);
-    transition: none;
-  }
-  &:hover {
-    //box-shadow: 0 0 0 1px rgba(#455A64, 1)
-    border-color: rgba(white, 0.5);
-  }
-  &:active {
-    transform: scale(0.9);
-  }
-  > i {
-    font-size: 48px;
-    position: absolute;
-    top: calc(50% - 12px);
-    left: 50%;
-    margin-top: -24px;
-    margin-left: -24px;
-  }
-  > span {
-    position: absolute;
-    left: 12px;
-    bottom: 4px;
-    font-size: 12px;
-  }
 }
+.start-menu--open .start-screen__tile {
+  transform: none;
+}
+.start-screen__tile.ui-sortable-helper {
+  transform: scale(1.1);
+  transition: none;
+}
+.start-screen__tile:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.start-screen__tile:active {
+  transform: scale(0.9);
+}
+.start-screen__tile > i {
+  font-size: 48px;
+  position: absolute;
+  top: calc(50% - 12px);
+  left: 50%;
+  margin-top: -24px;
+  margin-left: -24px;
+}
+.start-screen__tile > span {
+  position: absolute;
+  left: 12px;
+  bottom: 4px;
+  font-size: 12px;
+}
+
 .start-screen__tile--wide,
-.start-screen__tile--large{
+.start-screen__tile--large {
   width: 248px;
 }
+
 .start-screen__tile--large {
   height: 248px;
 }
+
 .start-screen__tile--small {
   width: 56px;
   height: 56px;
 }
+
 .start-screen__smallgroup {
   width: 120px;
   height: 120px;
-  //float: left;
   margin: 4px;
-  //background: white;
-  > .start-screen__tile {
-     margin: 0;
-    &:nth-child(odd) {
-      margin-right: 8px;
-      margin-bottom: 8px;
-    }
-  }
 }
-.start-screen__tile--explorer {
-  background-color: $explorer-color;
+.start-screen__smallgroup > .start-screen__tile {
+  margin: 0;
 }
-.start-screen__tile--mail {
-  background-color: $mail-color;
-}
-.start-screen__tile--notepad {
-  background-color: $notepad-color;
+.start-screen__smallgroup > .start-screen__tile:nth-child(odd) {
+  margin-right: 8px;
+  margin-bottom: 8px;
 }
 
+.start-screen__tile--explorer {
+  background-color: #0097A7;
+}
+
+.start-screen__tile--mail {
+  background-color: #5C6BC0;
+}
+
+.start-screen__tile--notepad {
+  background-color: #EC407A;
+}
 
 .full-textarea {
   -webkit-appearance: none;
@@ -1354,511 +1788,55 @@ a {
   background-image: url("");
 }
 
-
 .menu-toggle {
   position: relative;
 }
+
 .menu-toggle--open {
-  background-color: rgba(black, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
+
 .menu {
-  //display: none;
   position: absolute;
   z-index: 10000;
   background: white;
-  box-shadow: 0 2px 4px rgba(black, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: all 250ms;
-  > a {
-    display: block;
-    width: 200px;
-    padding: 10px 15px;
-    font-size: 16px;
-    color: #455A64;
-    transition: all 100ms;
-    &:hover {
-      background-color: #ECEFF1;
-    }
-  }
+}
+.menu > a {
+  display: block;
+  width: 200px;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: #455A64;
+  transition: all 100ms;
+}
+.menu > a:hover {
+  background-color: #ECEFF1;
 }
 
-
-
-
-// Folder list
-.folders {
-  > a {
-    display: inline-block;
-    padding: 10px;
-    margin: 5px;
-    width: 72px;
-    height: 72px;
-    text-align: center;
-    border: 1px solid transparent;
-    color: #607D8B;
-    cursor: pointer;
-    &:hover {
-      color: $theme-color;
-      border-color: rgba(black, 0.1);
-      background-color: rgba(#ECEFF1, 0.5);
-    }
-    > i {
-      display: block;
-      font-size: 32px;
-    }
-    > span {
-      display: block;
-    }
-  }
+.folders > a {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  width: 72px;
+  height: 72px;
+  text-align: center;
+  border: 1px solid transparent;
+  color: #607D8B;
+  cursor: pointer;
+}
+.folders > a:hover {
+  color: #1976D2;
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(236, 239, 241, 0.5);
+}
+.folders > a > i {
+  display: block;
+  font-size: 32px;
+}
+.folders > a > span {
+  display: block;
 }
 
 </style>
-
-
-
-
-<script language="javascript"> 
-$(window).load(function() {
-    var $container = $('.start-screen');
-  
-    $container.masonry({
-      itemSelector: '.masonry-item',
-      columnWidth: 128
-    });
-    
-    /*$container.sortable({
-      items: '.start-screen__tile',
-      start: function(e, ui) {
-        ui.item.removeClass('masonry-item');
-        $container.masonry('reloadItems');
-        
-        console.log('start drag');
-      },
-      change: function(e, ui) {
-       $container.masonry('reload');
-      },
-      stop: function(e, ui) {
-        ui.item.addClass('masonry-item');
-        $container.masonry('reload');
-        
-        console.log('stop drag');
-      }
-    });
-    $container.disableSelection();*/
-    
-    
-    $('.start-menu').hide().css('opacity', 1);
-  });
-  
-  $(function() {
-    //$('.start-screen-scroll').jScrollPane();
-  });
-  
-  function resizeStart() {
-      var startWidth = $('.start-screen').outerWidth();
-      var startRound = Math.ceil(startWidth / 128.0) * 128;
-    
-    console.log('original: ' + startWidth);
-    console.log('rounded: ' + startRound);
-      
-      $('.start-screen').css({
-        'width' : startRound
-      });
-  }
-  
-  //$(window).load(resizeStart);
-  //$(window).resize(resizeStart);
-  
-  
-  
-  $(function() {
-    var zIndex = 1;
-  
-    var fullHeight = $(window).height() - 48,
-        fullWidth  = $(window).width();
-   
-    
-    $(window).resize(function() {
-      fullHeight = $(window).height() - 48;
-      fullWidth = $(window).width();
-    });
-    
-    $(function() {
-      $('.window:visible').each(function() {
-        var appName = $(this).data('window');
-        
-        $('.taskbar__item[data-window="' + appName + '"]').addClass('taskbar__item--open');
-      });
-      
-      $('.window:hidden').each(function() {
-        $(this).addClass('window--opening');
-      });
-    });
-    
-    $(function() {
-      var initialActive = $('.window:visible').not('.window--minimized').first();
-      var appName = $(initialActive).data('window');
-      
-     $(initialActive).addClass('window--active').css({'z-index' : zIndex++});
-     $('.taskbar__item[data-window="' + appName + '"]').addClass('taskbar__item--active');
-    });
-  
-    
-    $('.window').click(function(e) {
-      if ( !$(this).is('.window--active')) {
-        $('.window').removeClass('window--active');
-      }
-      
-      $(this).addClass('window--active');
-      $(this).css({'z-index' : zIndex++});
-      
-      var appName = $(this).data('window');
-      var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]');
-     
-      if ( !$('.window__close').is(e.target) && $('.window__close').has(e.target).length === 0 && !$('.window__minimize').is(e.target) && $('.window__minimize').has(e.target).length === 0 ) {
-        $('.taskbar__item').removeClass('taskbar__item--active'); $(targetTaskbar).addClass('taskbar__item--active');
-        
-      }
-    });
-    
-    $('.window').resizable({
-      handles: 'n,ne,e,se,s,sw,w,nw',
-      stop: function() {
-       var initialHeight = $(this).height(),
-       initialWidth = $(this).width(),
-       initialTop = $(this).position().top,
-       initialLeft = $(this).position().left; }
-     });
-  
-    $('.window').draggable({    
-      handle: '.window__titlebar',
-      stop: function() {
-      var initialHeight = $(this).height(),
-          initialWidth = $(this).width(),
-          initialTop = $(this).position().top,
-          initialLeft = $(this).position().left; 
-      },
-      start: function(event, ui) {
-        var mouseX = event.pageX + 'px';
-        console.log(mouseX);
-        
-        $('.window').removeClass('window--active');
-        
-        $(this).addClass('window--active');
-        $(this).css({'z-index' : zIndex++});
-  
-        if ( $(this).hasClass('window--maximized') ) {
-         
-          //alert(mouseX);
-          $(this).removeClass('window--maximized').css({ 'height' : initialHeight,
-                        'width'  : initialWidth,
-                        'top'    : 0,
-                        'left'   : mouseX }); 
-        }  
-        
-        var appName = $(this).data('window');
-      var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]')
-      $('.taskbar__item').removeClass('taskbar__item--active'); $(targetTaskbar).addClass('taskbar__item--active');
-      }
-    });
-  
-    function openApp(e) {
-      var appName = $(this).data('window');
-      var targetWindow = $('.window[data-window="' + appName + '"]');
-      var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]');
-      
-      e.preventDefault();
-      $('.taskbar__item').removeClass('taskbar__item--active');
-      
-      if ( targetWindow.is(':visible') ) {
-        if ( targetWindow.hasClass('window--active') ) {
-          $(targetWindow).toggleClass('window--minimized');
-  
-          if ( !targetWindow.hasClass('window--minimized') ) {
-            var initialHeight = $(targetWindow).height(),
-                 initialWidth = $(targetWindow).width(),
-                 initialTop = $(targetWindow).position().top,
-                 initialLeft = $(targetWindow).position().left; 
-            
-            $('.window').removeClass('window--active');
-  
-           $(targetWindow).addClass('window--active').css({ 
-              'z-index' : zIndex++
-            });
-            
-           $(targetTaskbar).addClass('taskbar__item--active');
-          }
-        } else {
-          $('.window').removeClass('window--active');
-          $(targetWindow).addClass('window--active').removeClass('window--minimized').css({'z-index' : zIndex++});
-          
-          $(targetTaskbar).addClass('taskbar__item--active');
-        }
-      } else {
-        $('.window').removeClass('window--active');
-        
-        $('.window[data-window="' + appName + '"]').css({ 'z-index' : zIndex++ }).addClass('window--active').show();
-        
-        setTimeout(function() {
-          $('.window[data-window="' + appName + '"]').removeClass('window--opening');
-        }, 500);
-        
-        $(targetTaskbar).addClass('taskbar__item--active').addClass('taskbar__item--open');
-      } 
-    }
-    
-    $('.taskbar__item').click(openApp);
-    $('.start-menu__recent li a').click(openApp);
-    $('.start-screen__tile').click(openApp);
-  
-    
-    
-    
-    
-    
-    $('.window__titlebar').each(function() {
-      var parentWindow = $(this).closest('.window'); 
-      
-      $(this).find('a').click(function(e) {
-        e.preventDefault();
-      });
-      
-      $(this).find('.window__icon').click(function(e) {
-        $(this).siblings('.window__menutoggle').trigger('click');
-      });
-      
-      $(this).find('.window__menutoggle').click(function(e) {
-        $(parentWindow).find('.window__menu').fadeToggle(100).toggleClass('window__menu--open');
-        $(this).toggleClass('window__menutoggle--open');
-      });
-      
-      $(this).find('.window__close').click(function(e) {
-        $(parentWindow).addClass('window--closing');
-        
-        setTimeout(function() {             $(parentWindow).hide().removeClass('window--closing').addClass('window--opening');
-        }, 500);
-        
-        var appName = $(parentWindow).data('window');
-        
-        $('.taskbar__item[data-window="' + appName + '"]').removeClass('taskbar__item--open').removeClass('taskbar__item--active');
-        
-        var closest = $('.window').not('.window--minimized, .window--closing, .window--opening').filter(function() {
-          return $(this).css('z-index') < zIndex
-        }).first();
-        
-        $(closest).addClass('window--active');
-      });
-      
-      $(this).find('.window__minimize').click(function(e) {
-        $(parentWindow).addClass('window--minimized');
-        
-       var appName = $(parentWindow).data('window');
-      var targetTaskbar = $('.taskbar__item[data-window="' + appName + '"]');
-        
-       //alert(targetTaskbar.attr('class'));
-        $(targetTaskbar).removeClass('taskbar__item--active');
-        
-      });
-      
-      $(this).find('.window__maximize').click(function(e) {
-  
-        $(parentWindow).toggleClass('window--maximized');
-  
-        if ( !$(parentWindow).hasClass('window--maximized') ) {
-          $(parentWindow).css({ 'height' : initialHeight,
-                                'width'  : initialWidth,
-                                'top'    : initialTop,
-                                'left'   : initialLeft });
-        } else {
-          initialHeight = $(parentWindow).height();
-          initialWidth = $(parentWindow).width();
-          initialTop = $(parentWindow).position().top;
-          initialLeft = $(parentWindow).position().left;
-  
-          $(parentWindow).css({ 'height' : fullHeight,
-                                'width'  : fullWidth,
-                                'top'    : 0,
-                                'left'   : 0 });
-        }
-      });
-    });
-  
-    $('.window__titlebar').mouseup(function(e) {
-    var parentWindow = $(this).closest('.window');
-    var pos = $(parentWindow).offset().top;
-      
-      if ( pos < -5 ) {
-        //alert('at top')
-        $(parentWindow).addClass('window--maximized');
-        
-        initialHeight = $(parentWindow).height();
-          initialWidth = $(parentWindow).width();
-          initialTop = $(parentWindow).position().top;
-          initialLeft = $(parentWindow).position().left;
-  
-          $(parentWindow).css({ 'height' : fullHeight,
-                                'width'  : fullWidth,
-                                'top'    : 0,
-                                'left'   : 0 });
-      }
-    
-  });
-  }); 
-  
-  
-  
-  // Unfocus windows when desktop is clicked
-  $('.desktop').click(function(e) {
-    if ( $('.desktop').has(e.target).length === 0 ) {
-      $('.window').removeClass('window--active');
-      $('.taskbar__item').removeClass('taskbar__item--active');
-    }
-  });
-  
-  
-  
-  
-  
-  $(function() {
-    $('.side__list ul').each(function() {
-      if ( $(this).find('ul').is(':visible') ) {
-        $(this).children('li').addClass('side__list--open');
-      }
-    });
-  });
-  
-  
-  
-  $(function() {
-    $('.side__list li').each(function() {
-      if ( $(this).children('ul').length ) {
-        //$(this).addClass('list__sublist');
-        $(this).children('a').append('<span class="list__toggle"></span>');
-        
-        
-      }
-      
-      if ( $(this).children('ul').is(':visible') ) {
-        $(this).addClass('side__list--open');
-      }
-    });
-  });
-  
-  $(document).on('click', '.list__toggle',  function() {
-  
-   $(this).closest('li').children('ul').animate({
-    'height' : 'toggle',
-    'opacity' : 'toggle'
-  }, 250);
-  
-   $(this).closest('li').toggleClass('side__list--open');
-  
-  
-  });
-  
-  
-  
-  
-  function toggleStart(e) {
-    $('.start-menu-fade').fadeToggle(500);
-    $('.start-menu').fadeToggle(250).toggleClass('start-menu--open');
-    $('.taskbar__item--start').toggleClass('start--open');
-  }
-  $('.taskbar__item--start').click(toggleStart);
-  $('.start-menu__recent li a').click(toggleStart);
-  $('.start-screen__tile').click(toggleStart);
-  
-  // Prevent "open" class on start
-  $(function() {
-    $('.taskbar__item--start').click(function() {
-      $(this).removeClass('taskbar__item--open taskbar__item--active');
-    });
-  });
-  
-  
-  $(document).mouseup(function(e) {
-      var start = $('.start-menu');
-      var startToggle = $('.taskbar__item--start');
-  
-  
-      if (start.is(':visible') && !startToggle.is(e.target) && startToggle.has(e.target).length === 0 && !start.is(e.target) && start.has(e.target).length === 0 ) {
-        toggleStart();
-        //alert('clicked outside start');
-      }
-    
-    
-  
-  });
-  
-  
-  
-  
-  // Current time 
-  $(function() {
-    var a_p = "";
-    var d = new Date();
-  
-    var curr_hour = d.getHours();
-  
-    if (curr_hour < 12)
-       {
-       a_p = "AM";
-       }
-    else
-       {
-       a_p = "PM";
-       }
-    if (curr_hour == 0)
-       {
-       curr_hour = 12;
-       }
-    if (curr_hour > 12)
-       {
-       curr_hour = curr_hour - 12;
-       }
-  
-    var curr_min = d.getMinutes();
-    
-    if ( curr_min < 10 ) {
-      curr_min = '0' + curr_min;
-    }
-  
-    $('.time').html(curr_hour + ':' + curr_min + ' ' + a_p);
-  });
-  
-  
-  
-  $('.menu-toggle').each(function() {
-    var menuName = $(this).data('menu');
-    var menu = $('.menu[data-menu="' + menuName + '"]');
-    var pos = $(this).position();
-    var height = $(this).outerHeight();
-    
-    if ( !$(menu).hasClass('menu--bottom') ) {
-      $(menu).position({
-        my: 'left top',
-        at: 'left bottom',
-        of: this,
-        collision: 'none'
-      });
-    } else {
-     
-    }
-    
-    $(menu).hide();
-    
-    $(this).click(function(e) {
-      e.preventDefault();
-      $('.menu').not(menu).hide();
-      $(menu).toggle();
-    });
-  });
-  
-  
-  
-  
-  $(document).mouseup(function(e) {
-    if ( $('.menu').has(e.target).length === 0 && !$('.menu-toggle').is(e.target) && $('.menu-toggle').has(e.target).length === 0 ) {
-      $('.menu').hide();
-    }
-  });
-</script>
