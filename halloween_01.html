@@ -10,6 +10,9 @@
   <div class="bat">
     <img src="https://64.media.tumblr.com/bf3f8736efc8a5a6fed5f21d51944b4c/9e7f16c91e063c7d-ca/s400x600/854677d99a0e291e42edd01734fb35b591050257.gifv" width="400" height="200" alt="bat" />
     </div>
+    <div class="bat2">
+      <img src="https://64.media.tumblr.com/bf3f8736efc8a5a6fed5f21d51944b4c/9e7f16c91e063c7d-ca/s400x600/854677d99a0e291e42edd01734fb35b591050257.gifv" width="400" height="200" alt="bat" />
+      </div>
 <!-- partial:index.partial.html -->
 <div class="container">
 
@@ -146,6 +149,37 @@ margin-right: 20px;
 @keyframes across {
 0% {left: -200px}
 100% {left: 1500px; right: -50px}
+}
+@keyframes float {
+0% {transform: translate(0px, 0px)}
+50% {transform: translate(0px, -80px)}
+100% {transform: translate(0px, 0px)}
+}
+img {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.bat2 {
+position: fixed;
+top: 180px;
+left: 0;
+display: flex;
+animation-name: across, float;
+animation-iteration-count: infinite, infinite;
+animation-duration: 15s, 9s;
+animation-play-state: running, running;
+transform-origin: top;
+}
+.bat p {
+display: inline-block;
+margin-bottom: 2px;
+margin-top: auto;
+margin-right: 20px;
+}
+@keyframes across {
+0% {left: -200px}
+100% {left: 1800px; right: -50px}
 }
 @keyframes float {
 0% {transform: translate(0px, 0px)}
