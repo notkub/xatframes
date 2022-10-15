@@ -44,7 +44,10 @@
     <div class="smoke">
       <div></div>
     </div>
-    <div class="smoke2">
+    <div class="smoke smoke2">
+      <div></div>
+    </div>
+    <div class="smoke smoke2">
       <div></div>
     </div>
   
@@ -288,7 +291,19 @@ body {
   box-shadow: 0px -6px 36px 0px #FFFFFF;
   filter: blur(20px);
   opacity: 0.6;
-  animation: smoke 35s linear 0s infinite;
+  animation: smoke 30s linear 0s infinite;
+  transform: scale(2);
+}
+.smoke3 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 180px;
+  height: 20px;
+  box-shadow: 0px -6px 36px 0px #FFFFFF;
+  filter: blur(20px);
+  opacity: 0.6;
+  animation: smoke 20s linear 0s infinite;
   transform: scale(2);
 }
 .smoke div {
