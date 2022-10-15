@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Halloween</title>
-
+ 
 
 </head>
 <body>
   <div class="bat1">
-    <img src="https://64.media.tumblr.com/bf3f8736efc8a5a6fed5f21d51944b4c/9e7f16c91e063c7d-ca/s400x600/854677d99a0e291e42edd01734fb35b591050257.gifv" width="400" height="200" alt="bat" />
+    <img src="https://64.media.tumblr.com/bf3f8736efc8a5a6fed5f21d51944b4c/9e7f16c91e063c7d-ca/s400x600/854677d99a0e291e42edd01734fb35b591050257.gifv" width="400" height="200" alt="bat1" />
     </div>
 <!-- partial:index.partial.html -->
 <div class="container">
@@ -126,7 +126,7 @@
 
 <style>
 
-.bat {
+.bat1 {
 position: fixed;
 top: 180px;
 left: 0;
@@ -137,7 +137,7 @@ animation-duration: 11s, 7s;
 animation-play-state: running, running;
 transform-origin: top;
 }
-.bat p {
+.bat1 p {
 display: inline-block;
 margin-bottom: 2px;
 margin-top: auto;
@@ -145,7 +145,7 @@ margin-right: 20px;
 }
 @keyframes across {
 0% {left: -200px}
-100% {left: 2000px; right: -50px}
+100% {left: 1200px; right: -50px}
 }
 @keyframes float {
 0% {transform: translate(0px, 0px)}
@@ -157,6 +157,36 @@ img {
   transform: scaleX(-1);
 }
 
+.bat2 {
+position: fixed;
+top: 230px;
+left: 0;
+display: flex;
+animation-name: across, float;
+animation-iteration-count: infinite, infinite;
+animation-duration: 15s, 9s;
+animation-play-state: running, running;
+transform-origin: top;
+}
+.bat2 p {
+display: inline-block;
+margin-bottom: 2px;
+margin-top: auto;
+margin-right: 20px;
+}
+@keyframes across {
+0% {left: -200px}
+100% {left: 1800px; right: -50px}
+}
+@keyframes float {
+0% {transform: translate(0px, 0px)}
+50% {transform: translate(0px, -80px)}
+100% {transform: translate(0px, 0px)}
+}
+img {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
 
 /* Global */
 @import url('https://fonts.googleapis.com/css2?family=Lily+Script+One&display=swap');
@@ -261,6 +291,18 @@ body {
   top: 40%;
   height: 5px;
   width: 120px;
+}
+.cloud6 {
+  left: 10%;
+  top: 50%;
+  height: 5px;
+  width: 120px;
+}
+.cloud7 {
+  left: -10%;
+  top: 40%;
+  height: 5px;
+  width: 100px;
 }
 .clouds div {
   position: absolute;
@@ -714,6 +756,9 @@ body {
   }
 }
 
+  
+
+  
 </style>
   
 
