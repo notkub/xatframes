@@ -31,7 +31,7 @@
   
   .bata {
     position: fixed;
-    top: 300px;
+    top: 220px;
     left: 0;
     display: flex;
     animation-name: across, float;
