@@ -31,7 +31,7 @@
   
   .bat2 {
     position: fixed;
-    top: 300px;
+    top: 250px;
     left: 0;
     display: flex;
     animation-name: across, float;
