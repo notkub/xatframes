@@ -1,41 +1,39 @@
-const Confettiful = function(el) {
-	this.el = el;
-	this.containerEl = null;
-	this.confettiFrequency = 3;
-	this.confettiColors = ['#fce18a', '#ff726d', '#b48def', '#f4306d'];
-	this.confettiAnimations = ['slow', 'medium', 'fast'];
-	this._setupElements();
-	this._renderConfetti();
-};
+var music = document.getElementById("music");
+var playButton = document.getElementById("play");
+var pauseButton = document.getElementById("pause");
+var playhead = document.getElementById("elapsed");
+var timeline = document.getElementById("slider");
+var timer = document.getElementById("timer");
+var duration;
+pauseButton.style.visibility = "hidden";
 
-Confettiful.prototype._setupElements = function() {
-	const containerEl = document.createElement('div');
-	const elPosition = this.el.style.position;
-	if (elPosition !== 'relative' || elPosition !== 'absolute') {
-		this.el.style.position = 'relative';
+var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+music.addEventListener("timeupdate", timeUpdate, false);
+
+function timeUpdate() {
+	var playPercent = timelineWidth * (music.currentTime / duration);
+	playhead.style.width = playPercent + "px";
+
+	var secondsIn = Math.floor(((music.currentTime / duration) / 3.5) * 100);
+	if (secondsIn <= 9) {
+		timer.innerHTML = "0:0" + secondsIn;
+	} else {
+		timer.innerHTML = "0:" + secondsIn;
 	}
-	containerEl.classList.add('confetti-container');
-	this.el.appendChild(containerEl);
-	this.containerEl = containerEl;
-};
+}
 
-Confettiful.prototype._renderConfetti = function() {
-	this.confettiInterval = setInterval(() => {
-		const confettiEl = document.createElement('div');
-		const confettiSize = (Math.floor(Math.random() * 3) + 7) + 'px';
-		const confettiBackground = this.confettiColors[Math.floor(Math.random() * this.confettiColors.length)];
-		const confettiLeft = (Math.floor(Math.random() * this.el.offsetWidth)) + 'px';
-		const confettiAnimation = this.confettiAnimations[Math.floor(Math.random() * this.confettiAnimations.length)];
-		confettiEl.classList.add('confetti', 'confetti--animation-' + confettiAnimation);
-		confettiEl.style.left = confettiLeft;
-		confettiEl.style.width = confettiSize;
-		confettiEl.style.height = confettiSize;
-		confettiEl.style.backgroundColor = confettiBackground;
-		confettiEl.removeTimeout = setTimeout(function() {
-		confettiEl.parentNode.removeChild(confettiEl);
-		}, 3000);
-		this.containerEl.appendChild(confettiEl);
-	}, 25);
-};
+playButton.onclick = function() {
+	music.play();
+	playButton.style.visibility = "hidden";
+	pause.style.visibility = "visible";
+}
 
-window.confettiful = new Confettiful(document.querySelector('.js-container'));
+pauseButton.onclick = function() {
+	music.pause();
+	playButton.style.visibility = "visible";
+	pause.style.visibility = "hidden";
+}
+
+music.addEventListener("canplaythrough", function () {
+	duration = music.duration;
+}, false);
