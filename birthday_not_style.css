@@ -22,6 +22,8 @@ h1, h2, span {
   }
 
   body {
+    cursor: crosshair;
+    perspective: 100%;
     transform-style: preserve-3d;
     font-family: "Pacifico", cursive;
   }
