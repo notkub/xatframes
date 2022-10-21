@@ -23,7 +23,7 @@ h1, h2, span {
 
   body {
     cursor: crosshair;
-    perspective: 100%;
+    perspective: 3000px;
     transform-style: preserve-3d;
     font-family: "Pacifico", cursive;
   }
