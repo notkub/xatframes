@@ -688,7 +688,7 @@ h1, h2, span {
     margin: auto;
     width: 200px;
     height: 60px;
-    left: 30%;
+    left: 35%;
     background: #f9fdff;
     border-radius: 100%;
     transform: translateZ(100px);
@@ -700,7 +700,7 @@ h1, h2, span {
     height: 90px;
     width: 300px;
     bottom: -95px;
-    left: 80%;
+    left: 85%;
     top: 380px;
     margin-left: -150px;
     border-radius: 100%;
@@ -714,7 +714,7 @@ h1, h2, span {
     height: 50px;
     width: 12px;
     top: 280px;
-    left: 30%;
+    left: 35%;
     margin: auto;
     background: linear-gradient(0deg, #b7f4a7 0%, white 100%);
     border-radius: 4px;
