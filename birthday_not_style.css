@@ -22,20 +22,7 @@ h1, h2, span {
   }
 
 
-  h1 {
-    position: fixed;
-    text-align: center;
-    width: 100%;
-    top: 120px;
-    font-size: 90px;
-    background: -webkit-linear-gradient(0deg, #ceadfc 0%, #a3bbfb 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: "Concert One", cursive;
-    font-weight: 400;
-    z-index: -1;
-    letter-spacing: 6px;
-  }
+
 
   span {
     position: fixed;
@@ -45,16 +32,7 @@ h1, h2, span {
     font-size: 70px;
   }
 
-  h2 {
-    position: fixed;
-    text-align: center;
-    width: 100%;
-    top: 50px;
-    font-size: 90px;
-    background: -webkit-linear-gradient(90deg, #e9e6ff 0%, white 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+
 
   bokeh {
     position: fixed;
