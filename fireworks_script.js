@@ -15,7 +15,6 @@ function setup() {
 }
 
 function draw() {
-  background("black");
   fill("white");
 
   for (const flock of flocks) {
