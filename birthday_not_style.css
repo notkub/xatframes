@@ -26,6 +26,7 @@ h1, h2, span {
     perspective: 3000px;
     transform-style: preserve-3d;
     font-family: "Pacifico", cursive;
+    overflow:hidden;
   }
 
   h1 {
