@@ -1,0 +1,93 @@
+@keyframes rightwingani {
+  from {
+    transform: rotate3d(0, 1, 0, 180deg);
+  }
+  30% {
+    transform: rotate3d(0, 1, 0, 180deg);
+  }
+  50% {
+    transform: rotate3d(0, 1, 0, 100deg);
+  }
+  70% {
+    transform: rotate3d(0, 1, 0, 180deg);
+  }
+  to {
+    transform: rotate3d(0, 1, 0, 180deg);
+  }
+}
+@keyframes leftwingani {
+  from {
+    transform: rotate3d(0, 1, 0, 0deg);
+  }
+  30% {
+    transform: rotate3d(0, 1, 0, 0deg);
+  }
+  50% {
+    transform: rotate3d(0, 1, 0, 80deg);
+  }
+  70% {
+    transform: rotate3d(0, 1, 0, 0deg);
+  }
+  to {
+    transform: rotate3d(0, 1, 0, 0deg);
+  }
+}
+.butterfly-large {
+  width: 346px;
+  height: 208px;
+  /* Wings */
+  /* Right wing */
+  /* Left wing */
+  transform: rotate(20deg) translate(30px, 60px) scale(0.8, 0.8);
+  transform-origin: center center;
+  position: absolute;
+  right: 30px;
+}
+.butterfly-large:before, .butterfly-large:after {
+  position: absolute;
+  width: 178px;
+  height: 208px;
+  content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png");
+  animation-duration: 8s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+.butterfly-large:before {
+  transform: rotate3d(0, 0, 0, 180deg);
+  /* Mirror left wing */
+  transform-origin: center right;
+  animation-name: rightwingani;
+}
+.butterfly-large:after {
+  transform-origin: top right;
+  animation-name: leftwingani;
+}
+
+.butterfly-small {
+  width: 140px;
+  height: 87px;
+  /* Wings */
+  /* Right wing */
+  /* Left wing */
+  transform: rotate(-20deg) translate(30px, 60px) scale(0.8, 0.8);
+  transform-origin: center center;
+}
+.butterfly-small:before, .butterfly-small:after {
+  position: absolute;
+  width: 75px;
+  height: 87px;
+  content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing-small.png");
+  animation-duration: 8s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+.butterfly-small:before {
+  transform: rotate3d(0, 0, 0, 180deg);
+  /* Mirror left wing */
+  transform-origin: center right;
+  animation-name: rightwingani;
+}
+.butterfly-small:after {
+  transform-origin: top right;
+  animation-name: leftwingani;
+}
