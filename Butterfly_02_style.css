@@ -45,9 +45,9 @@
 }
 .butterfly-large:before, .butterfly-large:after {
   position: absolute;
-  width: 178px;
-  height: 208px;
-  content: url("https://i.ibb.co/J5wnD1D/99145050605b8fa7a4c7708891699b11-1.png");
+  width: 144px;
+  height: 376px;
+  content: url("https://i.ibb.co/Wvb7D9k/99145050605b8fa7a4c7708891699b11-2.png");
   animation-duration: 8s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
