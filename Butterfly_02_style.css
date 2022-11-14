@@ -42,7 +42,7 @@
   transform-origin: center center;
   position: absolute;
   right: 200px;
-  top: 20px;
+  top: -20px;
 }
 .butterfly-large:before, .butterfly-large:after {
   position: absolute;
