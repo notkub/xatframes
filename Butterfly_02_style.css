@@ -80,7 +80,7 @@
   width: 178px;
   height: 208px;
   content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png");
-  animation-duration: 8s;
+  animation-duration: 4s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
@@ -112,7 +112,7 @@
   width: 143px;
   height: 195px;
   content: url("https://i.ibb.co/qY7MtPk/IMG-0071-1.png");
-  animation-duration: 8s;
+  animation-duration: 10s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
@@ -141,7 +141,7 @@
   width: 75px;
   height: 87px;
   content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing-small.png");
-  animation-duration: 8s;
+  animation-duration: 6s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
