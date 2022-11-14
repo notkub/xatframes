@@ -83,7 +83,7 @@
   width: 178px;
   height: 208px;
   content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png");
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
