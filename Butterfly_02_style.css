@@ -41,7 +41,7 @@
   transform: rotate(20deg) translate(30px, 60px) scale(0.8, 0.8);
   transform-origin: center center;
   position: absolute;
-  right: 200px;
+  right: 230px;
   top: -20px;
 }
 .butterfly-large:before, .butterfly-large:after {
