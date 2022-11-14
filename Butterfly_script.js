@@ -296,7 +296,7 @@ const init = () => {
   camera.lookAt(new THREE.Vector3());
 
   loader.crossOrigin = 'anonymous';
-  loader.load('http://ykob.github.io/sketch-threejs/img/sketch/butterfly/tex.png', texture => {
+  loader.load('https://ykob.github.io/sketch-threejs/img/sketch/butterfly/tex.png', texture => {
     texture.magFilter = THREE.NearestFilter;
     texture.minFilter = THREE.NearestFilter;
 
