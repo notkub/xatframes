@@ -47,7 +47,7 @@
   position: absolute;
   width: 178px;
   height: 208px;
-  content: url(&quot;https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png&quot;);
+  content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png");
   animation-duration: 8s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
@@ -79,7 +79,7 @@
   position: absolute;
   width: 178px;
   height: 208px;
-  content: url(&quot;https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png&quot;);
+  content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png");
   animation-duration: 8s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
@@ -111,7 +111,7 @@
   position: absolute;
   width: 143px;
   height: 195px;
-  content: url(&quot;https://i.ibb.co/qY7MtPk/IMG-0071-1.png&quot;);
+  content: url("https://i.ibb.co/qY7MtPk/IMG-0071-1.png");
   animation-duration: 8s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
@@ -140,7 +140,7 @@
   position: absolute;
   width: 75px;
   height: 87px;
-  content: url(&quot;https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing-small.png&quot;);
+  content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing-small.png");
   animation-duration: 8s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
