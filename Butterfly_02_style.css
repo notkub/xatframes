@@ -79,7 +79,7 @@
   animation-name: rightwingani;
 }
 .butterfly-large2:after {
-  transform-origin: top right;
+  transform-origin: top left: 1000px;
   animation-name: leftwingani;
 }
 
