@@ -1,113 +1,107 @@
+@import "compass/css3";
+
+
+@mixin butterfly($wing-img, $wing-width, $wing-height) {
+	width: ( $wing-width * 2 ) - 10;
+	height: $wing-height;
+
+	/* Wings */
+	&:before,
+	&:after {
+		position: absolute;
+		width: $wing-width;
+		height: $wing-height;
+		
+		content: url($wing-img);
+		animation-duration: 8s;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-in-out;
+	}
+
+	/* Right wing */
+	&:before {		
+		transform: rotate3d(0, 0, 0, 180deg); /* Mirror left wing */
+		transform-origin: center right;
+		animation-name: rightwingani;
+	}
+
+	/* Left wing */
+	&:after {
+		transform-origin: top right;
+		animation-name: leftwingani;
+	}
+
+}
+
+
 @keyframes rightwingani {
-  from {
-    transform: rotate3d(0, 1, 0, 180deg);
-  }
-  30% {
-    transform: rotate3d(0, 1, 0, 180deg);
-  }
-  50% {
-    transform: rotate3d(0, 1, 0, 100deg);
-  }
-  70% {
-    transform: rotate3d(0, 1, 0, 180deg);
-  }
-  to {
-    transform: rotate3d(0, 1, 0, 180deg);
-  }
+	from {
+		transform: rotate3d(0, 1, 0, 180deg);
+	}
+	30% {
+		transform: rotate3d(0, 1, 0, 180deg);
+	}
+	50% {
+		transform: rotate3d(0, 1, 0, 100deg);
+	}
+	70% {
+		transform: rotate3d(0, 1, 0, 180deg);
+	}
+	to {
+		transform: rotate3d(0, 1, 0, 180deg);
+	}
 }
+
 @keyframes leftwingani {
-  from {
-    transform: rotate3d(0, 1, 0, 0deg);
-  }
-  30% {
-    transform: rotate3d(0, 1, 0, 0deg);
-  }
-  50% {
-    transform: rotate3d(0, 1, 0, 80deg);
-  }
-  70% {
-    transform: rotate3d(0, 1, 0, 0deg);
-  }
-  to {
-    transform: rotate3d(0, 1, 0, 0deg);
-  }
+	from {
+		transform: rotate3d(0, 1, 0, 0deg);
+	}
+
+	30%  {
+		transform: rotate3d(0, 1, 0, 0deg);
+	}
+
+	50% {
+		transform: rotate3d(0, 1, 0, 80deg);
+	}
+
+	70%{
+		transform: rotate3d(0, 1, 0, 00deg);
+	}
+
+	to{
+		transform: rotate3d(0, 1, 0, 00deg);
+	}
 }
+
 .butterfly-large {
-  width: 346px;
-  height: 208px;
-  /* Wings */
-  /* Right wing */
-  /* Left wing */
+  @include butterfly('https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png', 178px, 208px);
   transform: rotate(20deg) translate(30px, 60px) scale(0.8, 0.8);
-  transform-origin: center center;
+transform-origin: center center;
   position: absolute;
   right: 30px;
 }
-.butterfly-large:before, .butterfly-large:after {
+
+.butterfly-large2 {
+  @include butterfly('https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png', 178px, 208px);
+  transform: rotate(-10deg) translate(30px, 60px) scale(0.8, 0.8);
+transform-origin: center center;
   position: absolute;
-  width: 178px;
-  height: 208px;
-  content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png");
-  animation-duration: 8s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-.butterfly-large:before {
-  transform: rotate3d(0, 0, 0, 180deg);
-  /* Mirror left wing */
-  transform-origin: center right;
-  animation-name: rightwingani;
-}
-.butterfly-large:after {
-  transform-origin: top right;
-  animation-name: leftwingani;
+  top: -50px;
+	left: 1000px;
 }
 
-.butterfly-large2:before, .butterfly-large2:after {
+.butterfly-large3 {
+  @include butterfly('https://i.ibb.co/qY7MtPk/IMG-0071-1.png', 143px, 195px);
+  transform: rotate(-20deg) translate(30px, 60px) scale(0.8, 0.8);
+transform-origin: center center;
   position: absolute;
-  width: 143px;
-  height: 195px;
-  content: url("https://i.ibb.co/qY7MtPk/IMG-0071-1.png");
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-.butterfly-large2:before {
-  transform: rotate3d(0, 0, 0, 180deg);
-  /* Mirror left wing */
-  transform-origin: center;
-  animation-name: rightwingani;
-}
-.butterfly-large2:after {
-  transform-origin: top right;
-  animation-name: leftwingani;
+  top: 100px;
+	left: 10px;
 }
 
 .butterfly-small {
-  width: 140px;
-  height: 87px;
-  /* Wings */
-  /* Right wing */
-  /* Left wing */
+  @include butterfly('https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing-small.png', 75px, 87px);
   transform: rotate(-20deg) translate(30px, 60px) scale(0.8, 0.8);
-  transform-origin: center center;
-}
-.butterfly-small:before, .butterfly-small:after {
-  position: absolute;
-  width: 75px;
-  height: 87px;
-  content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing-small.png");
-  animation-duration: 8s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-}
-.butterfly-small:before {
-  transform: rotate3d(0, 0, 0, 180deg);
-  /* Mirror left wing */
-  transform-origin: center right;
-  animation-name: rightwingani;
-}
-.butterfly-small:after {
-  transform-origin: top right;
-  animation-name: leftwingani;
+	transform-origin: center center;
 }
