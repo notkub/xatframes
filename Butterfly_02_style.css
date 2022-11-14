@@ -65,8 +65,8 @@
 
 .butterfly-large2:before, .butterfly-large2:after {
   position: absolute;
-  width: 178px;
-  height: 208px;
+  width: 143px;
+  height: 195px;
   content: url("https://i.ibb.co/qY7MtPk/IMG-0071-1.png");
   animation-duration: 10s;
   animation-iteration-count: infinite;
@@ -79,7 +79,7 @@
   animation-name: rightwingani;
 }
 .butterfly-large2:after {
-  transform-origin: top;
+  transform-origin: top right;
   animation-name: leftwingani;
 }
 
