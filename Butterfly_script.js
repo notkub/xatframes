@@ -8,9 +8,9 @@ class ConsoleSignature {
     if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
       const args = [
       `\n%c ${this.message} %c%c ${this.url} \n\n`,
-      'color: #fff;  padding:3px 0;',
+      'color: #fff; background: #222; padding:3px 0;',
       'padding:3px 1px;',
-      'color: #fff;  padding:3px 0;'];
+      'color: #fff; background: #47c; padding:3px 0;'];
 
       console.log.apply(console, args);
     } else if (window.console) {
@@ -29,7 +29,7 @@ const debounce = (callback, duration) => {
   };
 };
 
-const SIZE = 80;
+const SIZE = 280;
 
 class Butterfly {
   constructor(i, texture) {
@@ -296,7 +296,7 @@ const init = () => {
   camera.lookAt(new THREE.Vector3());
 
   loader.crossOrigin = 'anonymous';
-  loader.load('https://ykob.github.io/sketch-threejs/img/sketch/butterfly/tex.png', texture => {
+  loader.load('http://ykob.github.io/sketch-threejs/img/sketch/butterfly/tex.png', texture => {
     texture.magFilter = THREE.NearestFilter;
     texture.minFilter = THREE.NearestFilter;
 
