@@ -29,7 +29,7 @@ const debounce = (callback, duration) => {
   };
 };
 
-const SIZE = 280;
+const SIZE = 80;
 
 class Butterfly {
   constructor(i, texture) {
