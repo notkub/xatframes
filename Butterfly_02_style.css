@@ -41,7 +41,7 @@
   transform: rotate(20deg) translate(30px, 60px) scale(0.8, 0.8);
   transform-origin: center center;
   position: absolute;
-  right: 250px;
+  right: 230px;
   top: -80px;
 }
 .butterfly-large:before, .butterfly-large:after {
@@ -83,7 +83,7 @@
   width: 178px;
   height: 208px;
   content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png");
-  animation-duration: 1s;
+  animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
 }
