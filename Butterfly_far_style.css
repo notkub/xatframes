@@ -193,3 +193,7 @@
   transform-origin: top right;
   animation-name: leftwingani;
 }
+
+body {
+  overflow:hidden;
+}
