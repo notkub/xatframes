@@ -130,6 +130,41 @@
   animation-name: leftwingani;
 }
 
+.butterfly-large4 {
+  width: 346px;
+  height: 208px;
+  /* Wings */
+  /* Right wing */
+  /* Left wing */
+  transform: rotate(-10deg) translate(30px, 60px) scale(0.8, 0.8);
+  transform-origin: center center;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+}
+.butterfly-large4:before, .butterfly-large4:after {
+  position: absolute;
+  width: 180px;
+  height: 307px;
+  content: url("https://i.ibb.co/4VtVCyZ/Fs-Sm-H48-D7a-F1-2-1.png");
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+.butterfly-large4:before {
+  transform: rotate3d(0, 0, 0, 180deg);
+  /* Mirror left wing */
+  transform-origin: center right;
+  animation-name: rightwingani;
+}
+.butterfly-large4:after {
+  transform-origin: top right;
+  animation-name: leftwingani;
+}
+
+
 .butterfly-small {
   width: 140px;
   height: 87px;
