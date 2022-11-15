@@ -80,9 +80,9 @@
 }
 .butterfly-large2:before, .butterfly-large2:after {
   position: absolute;
-  width: 178px;
-  height: 208px;
-  content: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/5536/wing.png");
+  width: 134px;
+  height: 156px;
+  content: url("https://i.ibb.co/ZTyzS4h/wing-1.png");
   animation-duration: 2s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
