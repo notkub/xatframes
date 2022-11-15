@@ -139,8 +139,8 @@
   transform: rotate(-10deg) translate(30px, 60px) scale(0.8, 0.8);
   transform-origin: center center;
   position: absolute;
-  top: 30%;
-  left: 50%;
+  top: 40%;
+  left: 30%;
   margin-top: -100px;
   margin-left: -100px;
 }
