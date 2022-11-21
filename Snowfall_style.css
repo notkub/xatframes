@@ -1,10 +1,11 @@
-#snow {
-  display: block;
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #0F2027;
-  background-image: linear-gradient(to bottom, #0F2027, #080e10);
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
+
+.snow {
+  height: 100%;
+  position: absolute;
+  width: 100%;
 }
