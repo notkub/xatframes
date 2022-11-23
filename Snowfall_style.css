@@ -6,7 +6,7 @@
 }
 
 body {
-	color: #DFE8F5;
+	color: #fff;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -48,7 +48,7 @@ body {
 }
 
 .time small {
-	color: #28384D;
+	color: rgb(113, 103, 103);
 }
 
 /* SOCIAL PANEL CSS */
