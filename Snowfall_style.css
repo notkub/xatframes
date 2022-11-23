@@ -1,10 +1,6 @@
 
 
-.snow {
-  height: 100%;
-  position: absolute;
-  width: 100%;
-}
+
 
 
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
@@ -14,7 +10,6 @@
 }
 
 body {
-	background-color: #323975;
 	color: #fff;
 	display: flex;
 	flex-direction: column;
@@ -218,4 +213,10 @@ body {
 	.floating-btn {
 		right: 10px;
 	}
+}
+
+.snow {
+  height: 100%;
+  position: absolute;
+  width: 100%;
 }
