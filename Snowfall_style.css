@@ -247,13 +247,13 @@ body {
   }
   
   .red_bulb {
-	fill: #CA2128;
+	fill: #e9070e;
 	stroke: #6D6D6D;
 	stroke-miterlimit: 10;
   }
   
   .green_bulb {
-	fill: #2D754A;
+	fill: #0a8e3f;
 	stroke: #6D6D6D;
 	stroke-miterlimit: 10;
   }
@@ -265,13 +265,13 @@ body {
   }
   
   .white_bulb {
-	fill: #F5EED7;
+	fill: #e8e6dd;
 	stroke: #6D6D6D;
 	stroke-miterlimit: 10;
   }
   
   .gold_bulb {
-	fill: #ffcc5e;
+	fill: #e7b203;
 	stroke: #6D6D6D;
 	stroke-miterlimit: 10;
   }
