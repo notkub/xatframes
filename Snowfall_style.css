@@ -234,7 +234,8 @@ body {
 	margin: 0;
 	position: absolute;
 	width: 100%;
-	z-index: 1000
+	z-index: 1000;
+	margin-top: 2%
   }
   
   .light_cord {
