@@ -31,24 +31,34 @@
 </style>
 <div class="div left"><img width="360" height="360" src="https://images.weserv.nl/?&output=gif&n=-1&url=https%3A%2F%2Fxatimg.com%2Fimage%2FCBKbyoX4SxQX.gif"></div>
 
-<script src="" type=text/jvascript"></script>
+
 
 <style type="text/css">
+	body{
+		background-color:#FF9;  
+	}
+	/* ส่วนกำหนดสำหรับ แสดง iframe  */
+	div#myiframe_position1{
+		position:relative;
+		margin:auto;
+		display:block;  
+		width:450px; /*ความกว้างส่วนของเนื้อหา iframe ที่ต้องการแสดง*/
+		height:780px; /* ความสูงส่วนของเนื้อหา iframe ที่ต้องการแสดง */
+		overflow:hidden;
+	}
+	/* ส่วนกำหนด สำหรับ iframe */
+	div#myiframe_position1 iframe{
+		position:absolute;
+		display:block;
+		float:left;
+		margin-top:-420px; /* ปรับค่าของ iframe ให้ขยับขึ้นบนตามตำแหน่งที่ต้องการ */
+		margin-left:-715px; /* ปรับค่าของ iframe ให้ขยับมาด้านซ้ายตามตำแหน่งที่ต้องการ */
+	}
+	</style>
 
-#ncb33 {
-border:none;
-overflow:hidden;
-}
-#ncb33 iframe {
-margin-left:80%;
-margin-top:10%;
-border:none;
-}
-</style>
 
 
-
-<div id=ncb33><iframe width="450" height="780" src="https://www.notradio.in.th/api/10ls.php?type=1" scrolling="no"/></iframe></div>
+<div id="myiframe_position1"><iframe width="450" height="780" src="https://www.notradio.in.th/api/10ls.php?type=1" scrolling="no"/></iframe></div>
 
 
 
