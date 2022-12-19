@@ -510,7 +510,7 @@ body {
 .countdownSection:after {
   width: 90%;
   height: 90%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 0px solid rgba(255, 255, 255, 0.1);
 }
 .countdownSection .decorations {
   pointer-events: none;
