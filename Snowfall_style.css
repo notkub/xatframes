@@ -495,9 +495,7 @@ body {
 	position: relative;
 	overflow: hidden;
   }
-  .countdownSection:before, .countdownSection:after {
-	content: "";
-  }
+
   .countdownSection:before {
 	top: 0;
 	left: 0;
