@@ -16,7 +16,7 @@ body {
 	overflow: hidden;
 	margin: 0;
 	text-align: center;
-}
+} 
 
 .fa-snowflake {
 	color: #fff;
@@ -248,7 +248,7 @@ body {
   }
   
   .red_bulb {
-	fill: #e9070e;
+	fill: #B81518;
 	stroke: #6D6D6D;
 	stroke-miterlimit: 10;
   }
