@@ -8,14 +8,7 @@
   display: block;
 }
 
-h1, h2, span {
-  display: none;
-}
 
-@media screen and (min-width: 670px) {
-  .mobile {
-    display: none;
-  }
 
 
 
