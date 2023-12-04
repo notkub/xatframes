@@ -139,7 +139,7 @@ Snow(canvas, 150, { color: 'white' });
 
 
 const body = document.body;
-const endTime = new Date('December 31 2022 23:59:59');
+const endTime = new Date('December 31 2023 23:59:59');
 const daysEl = document.getElementById('days');
 const hoursEl = document.getElementById('hours');
 const minutesEl = document.getElementById('minutes');
